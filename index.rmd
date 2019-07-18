@@ -5,33 +5,41 @@ date: "May 12, 2019"
 output: html_document
 ---
 
-```{r setup, echo = F}
-library(shiny, warn.conflicts = F)
-library(knitr, warn.conflicts = F)
-source("propublica.R")
-source("civic-info.R")
+```{r setup, efcho = F}
+library(shiny)
+source("app_ui.R")
+source("app_server.R")
+
+shinyApp(ui = ui, server = server)
 ```
 
-## Introduction
+<!-- ```{r setup, echo = F} -->
+<!-- library(shiny, warn.conflicts = F) -->
+<!-- library(knitr, warn.conflicts = F) -->
+<!-- source("propublica.R") -->
+<!-- source("civic-info.R") -->
+<!-- ``` -->
 
-This report uses data provided by the [ProPublica API](https://projects.propublica.org/api-docs/congress-api/) and [Google Civic Data API](https://developers.google.com/civic-information/) to compile a report detailing the politicians that represent the resident(s) of: 
+<!-- ## Introduction -->
 
-`r address`
+<!-- This report uses data provided by the [ProPublica API](https://projects.propublica.org/api-docs/congress-api/) and [Google Civic Data API](https://developers.google.com/civic-information/) to compile a report detailing the politicians that represent the resident(s) of:  -->
 
-The following is an **overview** of the respresentatives of the above address including _all levels_ of government.
+<!-- `r address` -->
 
-```{r representative table, echo = F}
-kable(rep_table)
-```
+<!-- The following is an **overview** of the respresentatives of the above address including _all levels_ of government. -->
 
-## State Representatives
+<!-- ```{r representative table, echo = F} -->
+<!-- kable(rep_table) -->
+<!-- ``` -->
 
-Below is an in-depth analysis of the state representatives of the provided address. Specifically, these plots show the breakdown of gender and party affiliation.
+<!-- ## State Representatives -->
 
-```{r rep plots, echo = F}
-reps_by_gender
-reps_by_party
-```
+<!-- Below is an in-depth analysis of the state representatives of the provided address. Specifically, these plots show the breakdown of gender and party affiliation. -->
 
-## Representative `r s_full_name`
-`r s_full_name` is `r s_age` years old and can be found at [`r s_info$twitter_account`](s_twitter) on Twitter. In the last 20 votes the representative participated in, they agreed with the majority `r percent_agreed`% of the time.
+<!-- ```{r rep plots, echo = F} -->
+<!-- reps_by_gender -->
+<!-- reps_by_party -->
+<!-- ``` -->
+
+<!-- ## Representative `r s_full_name` -->
+<!-- `r s_full_name` is `r s_age` years old and can be found at [`r s_info$twitter_account`](s_twitter) on Twitter. In the last 20 votes the representative participated in, they agreed with the majority `r percent_agreed`% of the time. -->

@@ -34,9 +34,3 @@ vignettes/*.pdf
 
 # API keys
 api-keys.R
-
-# Hide working files for shiny testing
-civic_info.R
-index.html
-index.R
-propublica.R
