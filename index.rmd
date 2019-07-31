@@ -1,45 +1,110 @@
 ---
-title: "Your Representative Report"
+title: "Collection of Work"
 author: "Kathy Chen"
-date: "May 12, 2019"
-output: html_document
+output:
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
 ---
 
-```{r setup, efcho = F}
-library(shiny)
-source("app_ui.R")
-source("app_server.R")
+Home
+=====================================
+this is the landing page.
 
-shinyApp(ui = ui, server = server)
+
+2018 Mass Shooting Analysis
+=====================================
+
+```{r setup1, include = FALSE}
+source("analysis.R")
+library(knitr)
+library(leaflet)
+library(shiny)
 ```
 
-<!-- ```{r setup, echo = F} -->
-<!-- library(shiny, warn.conflicts = F) -->
-<!-- library(knitr, warn.conflicts = F) -->
-<!-- source("propublica.R") -->
-<!-- source("civic-info.R") -->
-<!-- ``` -->
+### Summary Information
 
-<!-- ## Introduction -->
+In 2018, there were `r num_total_shootings` mass shootings in the United States, resulting in a total of `r lives_lost` lives lost. `r city_most_impact` was the city most impacted by mass shootings, experiencing the highest number of shootings over the course of the year. Of the `r num_total_shootings` incidents reported last year, `r shootings_only_injured` resulted in no loss of life (only injuries). `r num_states_affected` states were affected by mass shootings in 2018, making up a majority of the country.
 
-<!-- This report uses data provided by the [ProPublica API](https://projects.propublica.org/api-docs/congress-api/) and [Google Civic Data API](https://developers.google.com/civic-information/) to compile a report detailing the politicians that represent the resident(s) of:  -->
+### Shootings by Month
 
-<!-- `r address` -->
+The following table summarizes the mass shooting events of 2018, organized by month. An important insight from this table is that most of the shootings occured in the summer months (June/July) and resulted in the most injuries. However, the most fatalities from mass shootings occured in November. Overall, there are fewer shootings in the winter than in the summer.
 
-<!-- The following is an **overview** of the respresentatives of the above address including _all levels_ of government. -->
+```{r summary table, echo = F}
+kable(shootings_by_month, align = "c")
+```
 
-<!-- ```{r representative table, echo = F} -->
-<!-- kable(rep_table) -->
-<!-- ``` -->
+### Thousand Oaks Shooting
 
-<!-- ## State Representatives -->
+On `r th_oaks$date`, `r th_oaks$num_killed` people were killed and `r th_oaks$num_injured` were injured in a mass shooting in `r th_oaks$city`, `r th_oaks$state`. On Wednesday night, a man walked into the Borderline Bar and Grill and [set off the fire alarms to confuse the people inside](https://www.nytimes.com/2018/11/08/us/shooting-california-thousand-oaks.html) before opening fire on the crowd. Many of the survivors of this shooting had also survived the mass shooting in Las Vegas that happened a year earlier, resulting in 58 deaths. The 13 deaths included the shooter himself, weilding a gun he purchased legally, as well as a sheriff's deputy.
 
-<!-- Below is an in-depth analysis of the state representatives of the provided address. Specifically, these plots show the breakdown of gender and party affiliation. -->
+### Map of Mass Shootings
 
-<!-- ```{r rep plots, echo = F} -->
-<!-- reps_by_gender -->
-<!-- reps_by_party -->
-<!-- ``` -->
+The interactive map below explores the geographic distribution of shootings in 2018. One important insight from this map is that most shootings in 2018 occured in the eastern/southeastern region of the United States, and very few shootings occured in the northwest/central north. Another insight is that the most fatal shootings mostly occured in large metropolitan areas, such as Los Angeles or Pittsburg.
 
-<!-- ## Representative `r s_full_name` -->
-<!-- `r s_full_name` is `r s_age` years old and can be found at [`r s_info$twitter_account`](s_twitter) on Twitter. In the last 20 votes the representative participated in, they agreed with the majority `r percent_agreed`% of the time. -->
+```{r interactive map, echo = F}
+labels <- paste0(shootings$city, ", ", shootings$state, "<br>",
+shootings$date, "<br>", shootings$Killed, " Fatalities")
+leaflet(data = shootings) %>%
+addProviderTiles("Stamen.TonerLite") %>%
+addCircleMarkers(
+lat = ~lat,
+lng = ~long,
+label = ~lapply(labels, HTML),
+fillOpacity = .7,
+radius = ~Killed,
+stroke = F
+)
+```
+
+### Analysis of Shootings by Region
+
+The following graph illustrates a more in depth analysis of mass shootings organized geographicaly. While the location of each shooting is generalized to four regions, the different type of casualties are displayed below. One insight from this graph is that, as confirmed in the map above, the most lives affected were in the Southern region of the country. Furthermore, while there were similar numbers of fatalities in the North Central and Western regions, there were more injuries in the North Central region. Similarly, there appears to have been similar numbers of injuries as a result of shootings in the Northeast and West, but there were fewer fatalities. One thing to note is that the Northeast region has the fewest number of states, and could explain why the respective numbers are lower than the other regions. 
+
+```{r plot, echo = F}
+shootings_by_region
+```
+
+Representative Report
+=====================================
+
+```{r setup2, echo = F}
+library(shiny, warn.conflicts = F)
+library(knitr, warn.conflicts = F)
+source("propublica.R")
+source("civic-info.R")
+```
+
+### Introduction
+
+This report uses data provided by the [ProPublica API](https://projects.propublica.org/api-docs/congress-api/) and [Google Civic Data API](https://developers.google.com/civic-information/) to compile a report detailing the politicians that represent the resident(s) of: 
+
+`r address`
+
+The following is an **overview** of the respresentatives of the above address including _all levels_ of government.
+
+```{r representative table, echo = F}
+kable(rep_table)
+```
+
+### State Representatives
+
+Below is an in-depth analysis of the state representatives of the provided address. Specifically, these plots show the breakdown of gender and party affiliation.
+
+```{r rep plots, echo = F}
+reps_by_gender
+reps_by_party
+```
+
+### Representative `r s_full_name`
+`r s_full_name` is `r s_age` years old and can be found at [`r s_info$twitter_account`](s_twitter) on Twitter. In the last 20 votes the representative participated in, they agreed with the majority `r percent_agreed`% of the time.
+
+Project 3
+=====================================
+
+
+Project 4
+=====================================
+
+
+Project 5
+=====================================
